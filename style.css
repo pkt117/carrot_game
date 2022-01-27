@@ -1,0 +1,25 @@
+:root {
+}
+
+/* global setting */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* main css */
+
+body {
+  background: black;
+  text-align: center;
+}
+
+#gameContainer {
+  background: center/cover no-repeat url("img/background.png");
+  width: 700px;
+  height: 400px;
+  margin: 50px auto;
+  border-radius: 20px;
+}
