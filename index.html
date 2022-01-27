@@ -7,21 +7,41 @@
     <title>Carrot Game</title>
     <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <section id="gameContainer">
       <header id="header">
-        <button class="play"></button>
-        <span class="timer"></span>
-        <span class="count"></span>
+        <button class="play">
+          <i class="play__Icon fas fa-play active" data-state="play"></i>
+          <i class="play__Icon fas fa-square" data-state="pause"></i>
+        </button>
+        <span class="timer">00:00</span>
+        <span class="count">0</span>
       </header>
 
-      <div id="bug">
-        <div class="bug__Items"></div>
-      </div>
+      <section id="itemContainer">
+        <div id="bug">
+          <!-- <div class="bug__items"></div> -->
+        </div>
 
-      <div id="carrot">
-        <div class="carrot__Items"></div>
+        <div id="carrot">
+          <div class="carrot__items"></div>
+        </div>
+      </section>
+
+      <div id="result">
+        <button class="replay">
+          <i class="fas fa-redo"></i>
+        </button>
+        <span class="result__text win">YOU WON 🎉</span>
+        <span class="result__text pause_replay">Replay ❓</span>
+        <span class="result__text lost">YOU LOST 💩</span>
       </div>
     </section>
   </body>
