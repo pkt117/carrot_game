@@ -7,12 +7,15 @@ const result = document.querySelector("#result");
 const item_container = document.querySelector("#itemContainer");
 const item__list = document.querySelector("#item__list");
 const win = document.querySelector(".win");
-const pause = document.querySelector(".pause_reply");
+const pause = document.querySelector(".pause_replay");
 const lost = document.querySelector(".lost");
 const replay = document.querySelector(".replay");
 
 let carrot_length = 10;
 let interval;
+const bgm = new Audio("sound/bg.mp3");
+const bug__effect = new Audio("sound/bug_pull.mp3");
+const win__effect = new Audio("sound/game_win.mp3");
 
 // timer function
 function countDown() {
@@ -24,9 +27,7 @@ function countDown() {
     timer.textContent = `0:${countdown}`;
 
     if (countdown == 0) {
-      clearInterval(interval);
-      lost.classList.add("on");
-      result.classList.add("on");
+      result__Alert("lost");
     }
   }, 1000);
 }
@@ -37,8 +38,7 @@ function carrot__count() {
 
   count.textContent = carrot_length;
   if (carrot_length === 0) {
-    win.classList.add("on");
-    result.classList.add("on");
+    result__Alert("win");
   }
 }
 
@@ -61,6 +61,42 @@ function item__create(name, type) {
   return `<div class=${name} style="top:${randomX}%; left:${randomY}%; data-type=${type}></div>`;
 }
 
+// result print
+function result__Alert(item) {
+  bgm.pause();
+  clearInterval(interval);
+  result.classList.add("on");
+  play.classList.add("hide");
+  item_container.style.pointerEvents = "none";
+
+  switch (item) {
+    case "win":
+      win.classList.add("on");
+      win__effect.play();
+      break;
+
+    case "lost":
+      lost.classList.add("on");
+
+      break;
+
+    case "pause":
+      pause.classList.add("on");
+
+      break;
+  }
+}
+
+// play game
+function play__game() {
+  bgm.load();
+  bgm.play();
+  countDown();
+  carrot_length = 10;
+  count.textContent = carrot_length;
+  item__batch();
+}
+
 // game start & end
 play.addEventListener("click", (event) => {
   const target = event.target;
@@ -68,14 +104,9 @@ play.addEventListener("click", (event) => {
     target.classList.remove("active");
     target.nextElementSibling.classList.add("active");
 
-    countDown();
-    carrot_length = 10;
-    count.textContent = carrot_length;
-    item__batch();
+    play__game();
   } else if (target.dataset.state === "pause") {
-    target.classList.remove("active");
-    target.previousElementSibling.classList.add("active");
-    clearInterval(interval);
+    result__Alert("pause");
   } else return;
 });
 
@@ -86,10 +117,16 @@ item_container.addEventListener("click", (event) => {
     target.remove();
     carrot__count();
   } else if (target.dataset.type === "bug") {
-    result.classList.add("on");
-    lost.classList.add("on");
+    bug__effect.play();
+    result__Alert("lost");
   }
 });
 
 // replay button click
-replay.addEventListener("click", () => {});
+replay.addEventListener("click", () => {
+  play__game();
+  result.classList.remove("on");
+  play.classList.remove("hide");
+  item_container.style.pointerEvents = "auto";
+  document.querySelector("#result .on").classList.remove("on");
+});
